@@ -69,6 +69,9 @@ function App() {
     const [themeMode, setThemeMode] = useState('light');
     const [deletedTask, setDeletedTask] = useState(null);
     const [greeting, setGreeting] = useState('');
+    const [userName, setUserName] = useState('');
+    const [showNameDialog, setShowNameDialog] = useState(false);
+    const [inputName, setInputName] = useState('');
 
     // Load tasks and API key from chrome.storage.local
     useEffect(() => {
@@ -91,6 +94,17 @@ function App() {
         });
     }, []);
 
+    // Load userName from chrome.storage.local
+    useEffect(() => {
+        chrome.storage.local.get(['userName'], (result) => {
+            if (result.userName) {
+                setUserName(result.userName);
+            } else {
+                setShowNameDialog(true);
+            }
+        });
+    }, []);
+
     // Save tasks to chrome.storage.local whenever allTasks changes
     useEffect(() => {
         if (!loading) { // Avoid saving during initial load
@@ -103,13 +117,6 @@ function App() {
             });
         }
     }, [allTasks, loading]);
-
-    // Load completedTaskIds from chrome.storage.local
-    useEffect(() => {
-      chrome.storage.local.get(['completedTaskIds'], (result) => {
-        if (result.completedTaskIds) setCompletedTaskIds(result.completedTaskIds);
-      });
-    }, []);
 
     // Save completedTaskIds to chrome.storage.local whenever it changes
     useEffect(() => {
@@ -132,6 +139,14 @@ function App() {
                     setApiKeyMessage('');
                 }, 1500);
             }
+        });
+    };
+
+    const handleSaveName = () => {
+        if (!inputName.trim()) return;
+        chrome.storage.local.set({ userName: inputName.trim() }, () => {
+            setUserName(inputName.trim());
+            setShowNameDialog(false);
         });
     };
 
@@ -298,13 +313,14 @@ function App() {
 
     // Personalized greeting
     useEffect(() => {
+      if (!userName) return;
       const hour = new Date().getHours();
       let greet = 'Hello';
       if (hour < 12) greet = 'Good morning';
       else if (hour < 18) greet = 'Good afternoon';
       else greet = 'Good evening';
-      setGreeting(`${greet}, Abhishek!`);
-    }, []);
+      setGreeting(`${greet}, ${userName}!`);
+    }, [userName]);
 
     const theme = createTheme({
       palette: {
@@ -360,7 +376,7 @@ function App() {
             onShowApiKey={() => { setShowApiKeyModal(true); setMenuAnchor(null); }}
             onAbout={() => { window.open('https://github.com/', '_blank'); setMenuAnchor(null); }}
           />
-          <Greeting />
+          <Greeting greeting={greeting} />
           <TaskInput value={newTask} onChange={e => setNewTask(e.target.value)} onAdd={handleAddTask} />
           <TaskFilters
             viewMode={viewMode}
@@ -406,6 +422,24 @@ function App() {
                   <Button onClick={() => setShowApiKeyModal(false)} color="inherit">Close</Button>
                   <Button onClick={handleSaveApiKey} variant="contained" color="primary" startIcon={<SaveIcon />}>Save Key</Button>
               </DialogActions>
+          </Dialog>
+          <Dialog open={showNameDialog} onClose={() => setShowNameDialog(false)}>
+            <DialogTitle>Welcome!</DialogTitle>
+            <DialogContent>
+              <Typography variant="body2" mb={1}>Please enter your name for a personalized greeting:</Typography>
+              <TextField
+                label="Your Name"
+                value={inputName}
+                onChange={e => setInputName(e.target.value)}
+                fullWidth
+                sx={{ mb: 2 }}
+                autoFocus
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setShowNameDialog(false)} color="inherit">Close</Button>
+              <Button onClick={handleSaveName} variant="contained" color="primary" disabled={!inputName.trim()}>Save</Button>
+            </DialogActions>
           </Dialog>
           <Dialog open={!!editTaskId} onClose={handleEditTaskCancel} maxWidth="xs" fullWidth>
             <DialogTitle>Edit Task</DialogTitle>
