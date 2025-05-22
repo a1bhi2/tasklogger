@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #f5f5f5;
+}
+
+#root {
+  min-width: unset;
+  max-width: unset;
+  min-height: unset;
+  max-height: unset;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: #f5f5f5;
+}
+
+.MuiContainer-root {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+  box-sizing: border-box;
+}

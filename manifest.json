@@ -1,0 +1,42 @@
+{
+    "manifest_version": 3,
+    "name": "Daily Task Logger",
+    "version": "1.0",
+    "description": "Log daily tasks and get AI-powered summaries.",
+    "permissions": [
+      "storage",  
+      "activeTab",
+      "contextMenus",
+      "notifications",
+      "tabs"
+    ],
+    "host_permissions": [
+      "https://generativelanguage.googleapis.com/",
+      "<all_urls>"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon16.png",
+        "128": "icons/icon16.png"
+      }
+    },
+    "icons": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon16.png",
+      "128": "icons/icon16.png"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "commands": {
+      "add-selected-to-tasklogger": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+Y",
+          "mac": "Command+Shift+Y"
+        },
+        "description": "Add selected text to Task Logger"
+      }
+    }
+  }
