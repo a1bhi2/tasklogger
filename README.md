@@ -8,6 +8,10 @@ TaskLogger is a Vite-powered browser extension for managing and tracking your da
 - Light and dark mode support
 - Persistent storage using browser APIs
 - Responsive and user-friendly interface
+<img width="401" alt="Screenshot 2025-05-22 at 7 42 38 PM" src="https://github.com/user-attachments/assets/96e9ef8c-2946-430d-9dee-cacec56de55c" />
+
+  <img width="399" alt="Screenshot 2025-05-22 at 7 43 21 PM" src="https://github.com/user-attachments/assets/79a51fd2-f5a6-43f4-9538-375cdd313da5" />
+
 
 ## Getting Started
 
