@@ -34,7 +34,7 @@ function App() {
     const [menuAnchor, setMenuAnchor] = useState(null);
     const taskInputRef = useRef(null);
     const [completedTaskIds, setCompletedTaskIds] = useState([]);
-    const [filter, setFilter] = useState('all'); // 'all', 'completed', 'active'
+    const [filter, setFilter] = useState('active'); // default to 'active' filter
     const [themeMode, setThemeMode] = useState('light');
     const [deletedTask, setDeletedTask] = useState(null);
     const [greeting, setGreeting] = useState('');
@@ -363,6 +363,7 @@ function App() {
             onDateChange={handleDateChange}
             filter={filter}
             setFilter={setFilter}
+            showAll={false} // Pass a prop to hide 'all' filter
           />
           <TaskList
             tasks={filteredTasks}

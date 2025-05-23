@@ -36,7 +36,6 @@ const TaskFilters = ({ viewMode, setViewMode, selectedDate, onDateChange, filter
         size="small"
         sx={{ ml: 1 }}
       >
-        <ToggleButton value="all">All</ToggleButton>
         <ToggleButton value="active">Active</ToggleButton>
         <ToggleButton value="completed">Completed</ToggleButton>
       </ToggleButtonGroup>
