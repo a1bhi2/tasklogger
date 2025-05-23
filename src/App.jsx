@@ -89,8 +89,17 @@ function App() {
 
     // Save completedTaskIds to chrome.storage.local whenever it changes
     useEffect(() => {
-      chrome.storage.local.set({ completedTaskIds });
-    }, [completedTaskIds]);
+      if (!loading) {
+        chrome.storage.local.set({ completedTaskIds });
+      }
+    }, [completedTaskIds, loading]);
+
+    // Load completedTaskIds from chrome.storage.local
+    useEffect(() => {
+      chrome.storage.local.get(['completedTaskIds'], (result) => {
+        if (result.completedTaskIds) setCompletedTaskIds(result.completedTaskIds);
+      });
+    }, []);
 
     const handleSaveApiKey = () => {
         if (!inputApiKey.trim()) {
